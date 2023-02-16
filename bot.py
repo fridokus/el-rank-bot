@@ -16,16 +16,17 @@ async def on_ready():
 @client.event
 async def on_message(message):
     username = str(message.author).split("#")[0]
-    user_message = str(message.content)
+    m = str(message.content)
 
-    print(f'Message {user_message} by {username}')
+    print(f'Message {m} by {username}')
 
     if message.author == client.user: return
 
-    if user_message.lower() == "hello" or user_message.lower() == "hi":
-        await message.channel.send(f'Hello {username}')
-        return
-    elif user_message.lower() == "bye":
+    if m.lower() in ["tjena", "hej"]:
+        await message.channel.send(f'Tjenixen, {username}')
+    elif m.lower() == "bye":
         await message.channel.send(f'Bye {username}')
+    elif 'zoler' in m.lower():
+        await message.add_reaction('🦊')
 
 client.run(TOKEN)

@@ -9,10 +9,13 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 
 @bot.command(name='rating')
 async def rating(ctx, arg):
+    if 'pontus' == arg.lower(): arg = 'thn-131'
+    elif 'deg' == arg.lower(): arg = ''
+    elif 'zoler' == arg.lower(): arg = ''
     if '#' in arg: user = arg.replace('#', '-')
     elif '-' in arg: user = arg
     else:
-        ctx.send('Get the rating of a user using this format: PA#240')
+        ctx.send('Get the rating of a user using this format: PA#240 . %s is invalid' % arg)
     user = user.lower()
     asession = AsyncHTMLSession()
     r = await asession.get('https://slippi.gg/user/' + user)

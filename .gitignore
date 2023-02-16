@@ -148,3 +148,10 @@ Sessionx.vim
 tags
 # Persistent undo
 [._]*.un~
+
+
+# token
+.token.txt
+
+# nohup
+nohup.out

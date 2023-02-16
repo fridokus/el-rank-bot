@@ -3,7 +3,7 @@ import os
 
 import discord
 
-TOKEN = open('token.txt').read().split()[0]
+TOKEN = open('.token.txt').read().split()[0]
 print(TOKEN)
 intents = discord.Intents.all()
 print(intents)

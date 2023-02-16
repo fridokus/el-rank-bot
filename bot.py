@@ -5,7 +5,7 @@ TOKEN = open('.token.txt').read().split()[0]
 intents = discord.Intents.all()
 client = discord.Client(intents=intents)
 
-bot = discord.commands.Bot(command_prefix='!')
+bot = discord.ext.commands.Bot(command_prefix='!')
 
 @bot.command()
 async def rank(ctx, arg):

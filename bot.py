@@ -19,8 +19,10 @@ async def rating(ctx, arg):
     await r.html.arender(timeout=20000)
     rating = float(r.html.find('.css-1rxv754', first=True).text.split(' ')[0])
     ret = user + ' has ' + str(rating) + ' rating. '
-    if   rating >= 2600: ret += 'This guy is a god ⛪️'
+    if   rating >= 2800: ret += 'This guy/girl might be the G.O.A.T 🐐'
+    elif rating >= 2600: ret += 'This guy is a god ⛪️'
     elif rating >= 2400: ret += 'Better than the best GnW in the world 🏴'
+    elif rating >= 2300: ret += 'Shoot for the moon 🌚'
     elif rating >= 2200: ret += 'Don\'t wanna run into this BEAST 🦁'
     elif rating >= 2150: ret += 'This is higher than Pontus will ever get 📈'
     elif rating >= 2100: ret += 'Whoa Daddy! 🧔'
@@ -34,11 +36,13 @@ async def rating(ctx, arg):
     elif rating >= 1400: ret += 'Need more practice against Falco 🐦️'
     elif rating >= 1350: ret += 'Great things start small 🪦'
     elif rating >= 1300: ret += 'You are a hard worker and a beautiful human being 👶'
-    elif rating >= 1200: ret += 'Do you know how to CC? 💀'
-    elif rating >= 1100: ret += 'Do you know how to L-cancel? 🍂'
-    elif rating >= 1000: ret += 'Do you know how to short-hop? 🐇'
-    elif rating >=  900: ret += 'Do you know how to fast-fall? 🌠'
-    elif rating >=  800: ret += 'Your rating is about as low as the lowest I\'ve seen 🐐. But don\'t give up!'
+    elif rating >= 1200: ret += 'Do you know how to wavedash? 🌊'
+    elif rating >= 1100: ret += 'Do you know how to CC? 💀'
+    elif rating >= 1000: ret += 'Do you know how to L-cancel? 🍂'
+    elif rating >=  900: ret += 'Do you know how to short-hop? 🐇'
+    elif rating >=  800: ret += 'Do you know how to fast-fall? 🌠'
+    elif rating >=  780: ret += 'Super Smash Brothers Melee for the Nintendo Gamecube 🧊'
+    elif rating >=  700: ret += 'Your rating is about as low as the lowest I\'ve seen 🍃 But don\'t give up!'
     else               : ret += 'You must have a girl-/boyfriend and I hope you have found meaning in life'
     await ctx.send(ret)
 

@@ -17,8 +17,9 @@ async def rating(ctx, arg):
     asession = AsyncHTMLSession()
     r = await asession.get('https://slippi.gg/user/' + user)
     await r.html.arender(timeout=20000)
+    username = float(r.html.find('.css-dshe97', first=True).text.split(' ')[0])
     rating = float(r.html.find('.css-1rxv754', first=True).text.split(' ')[0])
-    ret = user + ' has ' + str(rating) + ' rating. '
+    ret = user + ', a.k.a. ' + username + ', has ' + str(rating) + ' rating. '
     if   rating >= 2800: ret += 'This guy/girl might be the G.O.A.T 🐐'
     elif rating >= 2600: ret += 'This guy is a god ⛪️'
     elif rating >= 2400: ret += 'Better than the best GnW in the world 🏴'

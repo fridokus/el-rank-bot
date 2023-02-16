@@ -1,23 +1,45 @@
 #!/usr/bin/python3
 import discord
 from discord.ext import commands
-from requests_html import HTMLSession
+from requests_html import AsyncHTMLSession
 
 TOKEN = open('.token.txt').read().split()[0]
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='!', intents=intents)
 
-@bot.command(name='rank')
-async def rank(ctx, arg):
+@bot.command(name='rating')
+async def rating(ctx, arg):
     if '#' in arg: user = arg.replace('#', '-')
     elif '-' in arg: user = arg
     else:
-        ctx.send('Get the rank of a user using this format: PA#240')
-    session = HTMLSession()
-    r = session.get('https://slippi.gg/user/' + user)
-    r.html.render()
-    print(r)
-    await ctx.send(arg)
+        ctx.send('Get the rating of a user using this format: PA#240')
+    asession = AsyncHTMLSession()
+    r = await asession.get('https://slippi.gg/user/' + user)
+    await r.html.arender(timeout=20000)
+    rating = float(r.html.find('.css-1rxv754', first=True).text.split(' ')[0])
+    ret = user + ' has ' + str(rating) + ' rating. '
+    if   rating >= 2600: ret += 'This guy is a god ⛪️'
+    elif rating >= 2400: ret += 'Better than the best GnW in the world 🏴'
+    elif rating >= 2200: ret += 'Don\'t wanna run into this BEAST 🦁'
+    elif rating >= 2150: ret += 'This is higher than Pontus will ever get 📈'
+    elif rating >= 2100: ret += 'Whoa Daddy! 🧔'
+    elif rating >= 2050: ret += 'I guess you play Fox 🦊'
+    elif rating >= 2000: ret += 'Diamond BOYS 💎'
+    elif rating >= 1900: ret += 'Respectable 🙏'
+    elif rating >= 1800: ret += 'Pump the numbers 💹'
+    elif rating >= 1700: ret += 'Not bad 🐘'
+    elif rating >= 1600: ret += 'Give this guy/girl a gold medal 🥇'
+    elif rating >= 1500: ret += 'Git gud 🐅'
+    elif rating >= 1400: ret += 'Need more practice against Falco 🐦️'
+    elif rating >= 1350: ret += 'Great things start small 🪦'
+    elif rating >= 1300: ret += 'You are a hard worker and a beautiful human being 👶'
+    elif rating >= 1200: ret += 'Do you know how to CC? 💀'
+    elif rating >= 1100: ret += 'Do you know how to L-cancel? 🍂'
+    elif rating >= 1000: ret += 'Do you know how to short-hop? 🐇'
+    elif rating >=  900: ret += 'Do you know how to fast-fall? 🌠'
+    elif rating >=  800: ret += 'Your rating is about as low as the lowest I\'ve seen 🐐. But don\'t give up!'
+    else               : ret += 'You must have a girl-/boyfriend and I hope you have found meaning in life'
+    await ctx.send(ret)
 
 @bot.command(name='add')
 async def add(ctx, a: int, b: int):

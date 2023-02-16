@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import discord
 from discord.ext import commands
+from requests_html import HTMLSession
 
 TOKEN = open('.token.txt').read().split()[0]
 intents = discord.Intents.all()
@@ -8,6 +9,14 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 
 @bot.command(name='rank')
 async def rank(ctx, arg):
+    if '#' in arg: user = arg.replace('#', '-')
+    elif '-' in arg: user = arg
+    else:
+        ctx.send('Get the rank of a user using this format: PA#240')
+    session = HTMLSession()
+    r = session.get('https://slippi.gg/user/' + user)
+    r.html.render()
+    print(r)
     await ctx.send(arg)
 
 @bot.command(name='add')

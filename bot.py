@@ -1,11 +1,12 @@
 #!/usr/bin/python3
 import discord
+from discord.ext import commands
 
 TOKEN = open('.token.txt').read().split()[0]
 intents = discord.Intents.all()
 client = discord.Client(intents=intents)
 
-bot = discord.ext.commands.Bot(command_prefix='!')
+bot = commands.Bot(command_prefix='!')
 
 @bot.command()
 async def rank(ctx, arg):

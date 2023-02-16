@@ -77,3 +77,5 @@ async def on_message(message):
         await message.add_reaction('🔢')
 
 bot.run(TOKEN)
+
+test

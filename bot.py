@@ -13,6 +13,7 @@ async def rating(ctx, arg):
     elif '-' in arg: user = arg
     else:
         ctx.send('Get the rating of a user using this format: PA#240')
+    user = user.lower()
     asession = AsyncHTMLSession()
     r = await asession.get('https://slippi.gg/user/' + user)
     await r.html.arender(timeout=20000)

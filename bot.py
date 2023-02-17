@@ -65,6 +65,8 @@ async def rating(ctx, arg):
         return
     username = d['data']['getConnectCode']['user']['displayName']
     rating = d['data']['getConnectCode']['user']['rankedNetplayProfile']['ratingOrdinal']
+    placement = d['data']['getConnectCode']['user']['rankedNetplayProfile']['dailyRegionalPlacement']
+    continent = d['data']['getConnectCode']['user']['rankedNetplayProfile']['continent']
     if   rating >= 2800: comment = 'This guy/girl might be the G.O.A.T 🐐'
     elif rating >= 2600: comment = 'This guy is a god ⛪️'
     elif rating >= 2400: comment = 'Better than the best GnW in the world 🏴'
@@ -90,7 +92,7 @@ async def rating(ctx, arg):
     elif rating >=  780: comment = 'Super Smash Brothers Melee for the Nintendo Gamecube 🧊'
     elif rating >=  700: comment = 'Your rating is about as low as the lowest I\'ve seen 🍃 But don\'t give up!'
     else               : comment = 'You must have a girl-/boyfriend and I hope you have found meaning in life'
-    ret = f'{username} ({user}) has {rating} rating. {comment}'
+    ret = f'{username} ({user}) has {rating} rating. Number {placement} in {continent}.\n{comment}'
     await ctx.send(ret)
 
 @bot.command(name='add')

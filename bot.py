@@ -109,20 +109,21 @@ async def on_message(message):
     await bot.process_commands(message)
     u = str(message.author).split("#")[0]
     m = str(message.content)
+    l = m.lower()
     print(f'Message {m} by {u}')
     if message.author == bot.user: return
 
-    if m.lower() in ("tjena", "hej"):      await message.channel.send(f'Tjenixen, {u}')
-    elif m.lower() in ("bye", 'hejsvejs'): await message.channel.send(f'Bye {u}')
-    elif m.lower() in ('gn', 'godnatt'):   await message.channel.send(f'GN, {u}')
-    elif m.lower() in ('gm', 'godmorgon', 'god morgon'):
+    if l in ("tjena", "hej"):      await message.channel.send(f'Tjenixen, {u}')
+    elif l in ("bye", 'hejsvejs'): await message.channel.send(f'Bye {u}')
+    elif l in ('gn', 'godnatt'):   await message.channel.send(f'GN, {u}')
+    elif l in ('gm', 'godmorgon', 'god morgon'):
         await message.channel.send(f'GN, {u}')
 
-    if all(i in m.lower() for i in ('zoler', 'fox')):
+    if all(i in l for i in ('zoler', 'fox')):
         await message.add_reaction('🦊')
-    if all(i in m.lower() for i in ('pontus', 'fuck')):
+    if all(i in l for i in ('pontus', 'fuck')):
         await message.add_reaction('🔢')
-    if all(i in m.lower() for i in ('rax', 'king')):
+    if all(i in l for i in ('rax', 'king')):
         await message.add_reaction('👑')
 
 bot.run(TOKEN)

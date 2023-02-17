@@ -1,7 +1,45 @@
 #!/usr/bin/python3
 import discord
 from discord.ext import commands
-from requests_html import AsyncHTMLSession
+import json
+import requests
+
+headers = {
+    'authority': 'gql-gateway-dot-slippi.uc.r.appspot.com',
+    'accept': '*/*',
+    'accept-language': 'en-US,en;q=0.9,es-ES;q=0.8,es;q=0.7,ca;q=0.6',
+    'apollographql-client-name': 'slippi-web',
+    'content-type': 'application/json',
+    'origin': 'https://slippi.gg',
+    'referer': 'https://slippi.gg/',
+    'sec-ch-ua': '"Not?A_Brand";v="8", "Chromium";v="108", "Google Chrome";v="108"',
+    'sec-ch-ua-mobile': '?0',
+    'sec-ch-ua-platform': '"Windows"',
+    'sec-fetch-dest': 'empty',
+    'sec-fetch-mode': 'cors',
+    'sec-fetch-site': 'cross-site',
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+}
+
+json_data_trim = {
+    'operationName': 'AccountManagementPageQuery',
+    'variables': {
+        'cc': '',
+    },
+    'query': 'fragment userProfilePage on User {displayName  connectCode {code } rankedNetplayProfile {ratingOrdinal ratingUpdateCount wins losses continent characters {character gameCount} } } '
+             'query AccountManagementPageQuery($cc: String!) { getConnectCode(code: $cc) { user {...userProfilePage } } }',
+}
+
+def get_slippi_user(user):
+    data = json_data_trim.copy()
+    data['variables']['cc'] = user
+
+    try:
+        response = requests.post('https://gql-gateway-dot-slippi.uc.r.appspot.com/graphql', headers=headers, json=data, timeout=5)
+        if response.status_code == 200:
+            return json.loads(response.content)
+    except:
+        print('Exception During Request')
 
 TOKEN = open('.token.txt').read().split()[0]
 intents = discord.Intents.all()
@@ -9,19 +47,21 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 
 @bot.command(name='rating')
 async def rating(ctx, arg):
-    if 'pontus' == arg.lower(): arg = 'thn-131'
+    if 'pontus' == arg.lower(): arg = 'THN#131'
     elif 'deg' == arg.lower(): arg = ''
     elif 'zoler' == arg.lower(): arg = ''
-    if '#' in arg: user = arg.replace('#', '-')
-    elif '-' in arg: user = arg
+    if '-' in arg: user = arg.replace('-', '#')
+    elif '#' in arg: user = arg
     else:
         ctx.send('Get the rating of a user using this format: PA#240 . %s is invalid' % arg)
-    user = user.lower()
-    asession = AsyncHTMLSession()
-    r = await asession.get('https://slippi.gg/user/' + user)
-    await r.html.arender(timeout=20000)
-    username = r.html.find('.css-dshe97', first=True).text
-    rating = float(r.html.find('.css-1rxv754', first=True).text.split(' ')[0])
+        return
+    user = user.upper()
+    d = get_slippi_user(user)
+    if not d: 
+        ctx.send('User %s not found' % user)
+        return
+    username = d['data']['getConnectCode']['user']['displayName']
+    rating = d['data']['getConnectCode']['user']['rankedNetplayProfile']['ratingOrdinal']
     ret = username + ' (' + user + ') has ' + str(rating) + ' rating. '
     if   rating >= 2800: ret += 'This guy/girl might be the G.O.A.T 🐐'
     elif rating >= 2600: ret += 'This guy is a god ⛪️'

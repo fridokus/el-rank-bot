@@ -16,7 +16,7 @@ headers = {
     'sec-ch-ua': '"Not?A_Brand";v="8", "Chromium";v="108", "Google Chrome";v="108"',
     'sec-ch-ua-mobile': '?0',
     'sec-ch-ua-platform': '"Windows"',
- Update with place ment bot     'sec-fetch-dest': 'empty',
+    'sec-fetch-dest': 'empty',
     'sec-fetch-mode': 'cors',
     'sec-fetch-site': 'cross-site',
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
@@ -27,14 +27,13 @@ json_data_trim = {
     'variables': {
         'cc': '',
     },
-    'query': 'fragment userProfilePage on User {displayName  connectCode {code } rankedNetplayProfile {ratingOrdinal ratingUpdateCount wins losses continent characters {character gameCount} } } '
+    'query': 'fragment userProfilePage on User {displayName  connectCode {code } rankedNetplayProfile {ratingOrdinal dailyRegionalPlacement continent characters {character gameCount} } } '
              'query AccountManagementPageQuery($cc: String!) { getConnectCode(code: $cc) { user {...userProfilePage } } }',
 }
 
 def get_slippi_user(user):
     data = json_data_trim.copy()
     data['variables']['cc'] = user
-
     try:
         response = requests.post('https://gql-gateway-dot-slippi.uc.r.appspot.com/graphql', headers=headers, json=data, timeout=5)
         if response.status_code == 200:
@@ -50,7 +49,7 @@ def parse_slippi_user(arg):
     if 'pontus'  == arg.lower(): arg = 'THN#131'
     elif 'deg'   == arg.lower(): arg = 'pa240'
     elif 'zoler' == arg.lower(): arg = 'pa240'
-    m = re.search(r'([a-zA-Z]{2,}).??(\d{2,})', arg)
+    m = re.search(r'([a-zA-Z]{2,}).??(\d{1,})', arg)
     return ''.join((m.group(1).upper(), '#', m.group(2))) if m else None
 
 @bot.command(name='rating')
@@ -65,8 +64,10 @@ async def rating(ctx, arg):
         return
     username = d['data']['getConnectCode']['user']['displayName']
     rating = d['data']['getConnectCode']['user']['rankedNetplayProfile']['ratingOrdinal']
-    placement = d['data']['getConnectCode']['user']['rankedNetplayProfile']['dailyRegionalPlacement']
+    placement = d['data']['getConnectCode']['user']['rankedNetplayProfile'].get('dailyRegionalPlacement')
     continent = d['data']['getConnectCode']['user']['rankedNetplayProfile']['continent']
+    if continent == 'EUROPE': continent = 'Europe'
+    elif continent == 'NORTH_AMERICA': continent = 'North America'
     if   rating >= 2800: comment = 'This guy/girl might be the G.O.A.T 🐐'
     elif rating >= 2600: comment = 'This guy is a god ⛪️'
     elif rating >= 2400: comment = 'Better than the best GnW in the world 🏴'

@@ -50,7 +50,7 @@ def parse_slippi_user(arg):
     if 'pontus'  == arg.lower(): arg = 'THN#131'
     elif 'deg'   == arg.lower(): arg = 'pa240'
     elif 'zoler' == arg.lower(): arg = 'pa240'
-    m = re.search(r'([a-zA-Z]{2,}).?(\d{2,})', arg)
+    m = re.search(r'([a-zA-Z]{2,}).??(\d{2,})', arg)
     return ''.join((m.group(1).upper(), '#', m.group(2))) if m else None
 
 @bot.command(name='rating')

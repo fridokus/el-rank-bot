@@ -16,7 +16,7 @@ headers = {
     'sec-ch-ua': '"Not?A_Brand";v="8", "Chromium";v="108", "Google Chrome";v="108"',
     'sec-ch-ua-mobile': '?0',
     'sec-ch-ua-platform': '"Windows"',
-    'sec-fetch-dest': 'empty',
+ Update with place ment bot     'sec-fetch-dest': 'empty',
     'sec-fetch-mode': 'cors',
     'sec-fetch-site': 'cross-site',
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
@@ -92,7 +92,8 @@ async def rating(ctx, arg):
     elif rating >=  780: comment = 'Super Smash Brothers Melee for the Nintendo Gamecube 🧊'
     elif rating >=  700: comment = 'Your rating is about as low as the lowest I\'ve seen 🍃 But don\'t give up!'
     else               : comment = 'You must have a girl-/boyfriend and I hope you have found meaning in life'
-    ret = f'{username} ({user}) has {rating} rating. Number {placement} in {continent}.\n{comment}'
+    if placement: ret = f'{username} ({user}) has {rating} rating. Number {placement} in {continent}.\n{comment}'
+    else:         ret = f'{username} ({user}) has {rating} rating.\n{comment}'
     await ctx.send(ret)
 
 @bot.command(name='add')

@@ -125,5 +125,13 @@ async def on_message(message):
         await message.add_reaction('🔢')
     if all(i in l for i in ('rax', 'king')):
         await message.add_reaction('👑')
+    if any(i in l for i in ('kj', 'kagg', 'mikehaggar', 'karl-johan')) and ('pipa' in l or 'röka' in l or 'pipe' in l):
+        await message.add_reaction('🚬')
+    if 'max' in l and any(i in l for i in ('liv', 'ayahuasca', 'medit')):
+        await message.add_reaction('🤲')
+    if 'deg' in l and 'vad' in l:
+        await message.add_reaction('🤌')
+    if 'sebbe' in l and 'filosof' in l:
+        await message.add_reaction('🦥')
 
 bot.run(TOKEN)

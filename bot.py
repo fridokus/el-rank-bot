@@ -133,5 +133,8 @@ async def on_message(message):
         await message.add_reaction('🤌')
     if 'sebbe' in l and 'filosof' in l:
         await message.add_reaction('🦥')
+    if 'björnborg' in l or 'pheelong' in l:
+        await message.add_reaction('🐻')
+        await message.add_reaction('🏰')
 
 bot.run(TOKEN)
